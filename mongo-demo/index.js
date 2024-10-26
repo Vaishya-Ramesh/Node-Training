@@ -1,9 +1,11 @@
 const mongoose=require('mongoose');
-mongoose.connect('mongodb://localhost/playground')
+mongoose.connect('mongodb://localhost/mongo-exercises')
     .then(()=>console.log('Connected to MongoDB...'))
     .catch(err=>console.error('Could not connect to MongoDB...',err));
 
 const courseSchema=new mongoose.Schema({
+    _id:{type:String,
+        required:true},
     name:{type:String,
         required:true,
         minlength:5,
@@ -43,6 +45,7 @@ const courseSchema=new mongoose.Schema({
 const Course=mongoose.model('Course',courseSchema);
 async function createCourse(){
 const newCourse=new Course({
+    _id:'CustomId2222',
     name:'New Course',
     author:'New Author',
     tags:['New'],
@@ -63,27 +66,26 @@ catch(e)
     console.log(e.message);
 }
 }
-createCourse();
+// createCourse();
 
-/*
-async function getCourse(){
-    const pagenumber=2;
-    const pageSize=10;
 
-    const courses=await Course
-    .find({price:{$gte:10,$lte:20}})
-    .skip((pagenumber-1)*pageSize)
-    .limit(pageSize)
-    .find({isPublished:true})
-    .sort({name:1})
-    .select({name:1,tags:1});
-    console.log(courses);
-}*/
+// async function getCourse(){
+//     const pagenumber=2;
+//     const pageSize=5;
+
+//     const courses=await Course
+//     .find()
+//     .skip((pagenumber-1)*pageSize)
+//     .limit(pageSize)
+//     console.log(courses);
+// }
+// getCourse();
+
 async function getCourse(){
-    const courses=await Course.find();
+    const courses=await Course.findById('5a68fe2142ae6a6482c4c9cb');
     console.log('Courses:\n',courses);
 }
-// getCourse();
+getCourse();
 
 async function updateCourse(id){
     const course=await Course.findById(id);
