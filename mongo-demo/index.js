@@ -45,7 +45,7 @@ const courseSchema=new mongoose.Schema({
 const Course=mongoose.model('Course',courseSchema);
 async function createCourse(){
 const newCourse=new Course({
-    _id:'CustomId2222',
+    // _id:'CustomId2222',
     name:'New Course',
     author:'New Author',
     tags:['New'],
@@ -66,7 +66,7 @@ catch(e)
     console.log(e.message);
 }
 }
-// createCourse();
+createCourse();
 
 
 // async function getCourse(){
