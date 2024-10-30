@@ -1,9 +1,15 @@
 const bcrypt=require('bcrypt');
+const auth=require('../middleware/auth');
 const _=require('lodash');
- const {User,validateUsers}=require('../models/user')
+const {User,validateUsers}=require('../models/user')
 const express=require('express');
 const router=express.Router();
 router.use(express.json());
+
+router.get('/me',auth,async(req,res)=>{
+    const user=await User.findById(req.user._id).select('-password');
+    res.send(user);
+})
 
 router.post('/',async (req,res)=>
 {
@@ -22,7 +28,10 @@ router.post('/',async (req,res)=>
     newUser.password=await bcrypt.hash(newUser.password,salt);
 
     await newUser.save();
-    res.send(_.pick(newUser,['_id','name','email']));
+
+    const token=newUser.generateAuthToken();
+    res.header('x-auth-token',token).send(_.pick(newUser,['_id','name','email']));
+
 });
 
 module.exports=router;

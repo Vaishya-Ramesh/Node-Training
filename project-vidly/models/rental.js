@@ -12,9 +12,8 @@ const rentalSchema=new mongoose.Schema({
                 maxlength:50
             },
             phone:{
-                type:Number,
-                min:1000000000,
-                max:9999999999,
+                type:String,
+                match:/^\d{10}$/,
                 required:true
             },
             isGold:Boolean

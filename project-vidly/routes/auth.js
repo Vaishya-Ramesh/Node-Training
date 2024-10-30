@@ -1,7 +1,6 @@
-const jwt=require('jsonwebtoken');
 const bcrypt=require('bcrypt');
 const _=require('lodash');
- const {User}=require('../models/user')
+const {User}=require('../models/user')
 const express=require('express');
 const router=express.Router();
 router.use(express.json());
@@ -25,7 +24,7 @@ router.post('/',async (req,res)=>
     {
         return res.status(400).send('Invalid email or password');
     }
-    const token=jwt.sign({_id:user._id},'jwtPrivateKey');
+    const token=user.generateAuthToken();
     res.send(token);
 });
 function validate(req)
