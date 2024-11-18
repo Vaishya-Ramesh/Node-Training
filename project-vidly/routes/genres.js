@@ -1,24 +1,24 @@
 const {Genre,validateGenres}=require('../models/genres')
 const auth=require('../middleware/auth');
 const admin=require('../middleware/admin');
-const asyncMiddleware=require('../middleware/async');
 const express=require('express');
 const router=express.Router();
 router.use(express.json());
 
-router.get('/',asyncMiddleware(async (req,res)=>
+router.get('/',async (req,res,next)=>
 {
-    const genres=await Genre.find().sort('name');
-    res.send(genres);
-}));
-router.get('/:id',asyncMiddleware(async (req,res)=>{
+    next(new Error("Could not get the Genres."));
+    // const genres=await Genre.find().sort('name');
+    // res.send(genres);
+});
+router.get('/:id',async (req,res)=>{
     const genre=await Genre.findById(req.params.id);
     if(!genre)
     {
         return res.status(404).send("The genre with given id is not available");
     }
     res.send(genre);
-}));
+});
 
 router.post('/',auth,async (req,res)=>{
     const {error}=validateGenres(req.body);
