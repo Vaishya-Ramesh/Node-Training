@@ -7,9 +7,9 @@ router.use(express.json());
 
 router.get('/',async (req,res,next)=>
 {
-    next(new Error("Could not get the Genres."));
-    // const genres=await Genre.find().sort('name');
-    // res.send(genres);
+    // next(new Error("Could not get the Genres."));
+    const genres=await Genre.find().sort('name');
+    res.send(genres);
 });
 router.get('/:id',async (req,res)=>{
     const genre=await Genre.findById(req.params.id);
